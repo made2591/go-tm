@@ -1,5 +1,7 @@
 package symbol
 
+const BLANK = uint8(2)
+
 type Symbol interface {
 	NewSymbol(v ...uint8) *symbol
 	IsBlank() bool
@@ -12,15 +14,17 @@ type symbol struct {
 
 func NewSymbol(v ...uint8) *symbol {
 	s := &symbol{}
-	s.v = uint8(0)
-	if len(v) > 0 {
-		s.v = v[0]
+	s.v = uint8(2)
+	if len(v) == 1 {
+		if v[0] != BLANK {
+			s.v = v[0]
+		}
 	}
 	return s
 }
 
 func (s *symbol) IsBlank() bool {
-	return s.v == 2
+	return s.v == BLANK
 }
 
 func (s *symbol) GetValue() uint8 {
