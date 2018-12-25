@@ -12,12 +12,12 @@ const (
 type State interface {
 	IsInitial() bool
 	IsFinal() bool
-	GetValue() uint8
+	GetValue() interface{}
 	NextTransaction() Transaction
 }
 
 type state struct {
-	v uint8
+	v interface{}
 	t set.Set
 }
 
@@ -28,7 +28,7 @@ func NewInitialState() State {
 	return s
 }
 
-func NewState(v uint8, t set.Set) State {
+func NewState(v interface{}, t set.Set) State {
 	s := &state{}
 	s.v = v
 	s.t = t
@@ -43,7 +43,7 @@ func (s *state) IsFinal() bool {
 	return s.v == FINAL
 }
 
-func (s *state) GetValue() uint8 {
+func (s *state) GetValue() interface{} {
 	return s.v
 }
 
