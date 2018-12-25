@@ -4,12 +4,12 @@ import "testing"
 
 func TestNewSymbol(t *testing.T) {
 	s := NewSymbol()
-	if s.v != uint8(2) {
-		t.Errorf("NewSymbol was incorrect, got: %d, want: %d.", s.v, uint8(2))
+	if v := s.GetValue(); v != uint8(BLANK) {
+		t.Errorf("NewSymbol was incorrect, got: %d, want: %d.", v, BLANK)
 	}
 	s = NewSymbol(uint8(1))
-	if s.v != uint8(1) {
-		t.Errorf("NewSymbol was incorrect, got: %d, want: %d.", s.v, uint8(1))
+	if v := s.GetValue(); v != uint8(1) {
+		t.Errorf("NewSymbol was incorrect, got: %d, want: %d.", v, uint8(1))
 	}
 }
 

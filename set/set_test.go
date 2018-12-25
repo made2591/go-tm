@@ -13,7 +13,7 @@ func TestAdd(t *testing.T) {
 
 	set := NewSet()
 	set.Add("1")
-	if _, c := set.m["1"]; c == false {
+	if c := set.Contains("1"); c == false {
 		t.Errorf("Add was incorrect, got: %t, want: %t.", c, true)
 	}
 
@@ -22,9 +22,9 @@ func TestAdd(t *testing.T) {
 func TestRemove(t *testing.T) {
 
 	set := NewSet()
-	set.m["1"] = struct{}{}
+	set.Add("1")
 	set.Remove("1")
-	if _, c := set.m["1"]; c == true {
+	if c := set.Contains("1"); c == true {
 		t.Errorf("Remove was incorrect, got: %t, want: %t.", c, false)
 	}
 
@@ -33,8 +33,13 @@ func TestRemove(t *testing.T) {
 func TestContains(t *testing.T) {
 
 	set := NewSet()
-	set.m["1"] = struct{}{}
+	set.Add("1")
 	if c := set.Contains("1"); c == false {
+		t.Errorf("Contains was incorrect, got: %t, want: %t.", c, true)
+	}
+
+	set.Remove("1")
+	if c := set.Contains("1"); c == true {
 		t.Errorf("Contains was incorrect, got: %t, want: %t.", c, false)
 	}
 

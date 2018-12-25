@@ -3,7 +3,6 @@ package symbol
 const BLANK = uint8(2)
 
 type Symbol interface {
-	NewSymbol(v ...uint8) *symbol
 	IsBlank() bool
 	GetValue() uint8
 }
@@ -12,7 +11,7 @@ type symbol struct {
 	v uint8
 }
 
-func NewSymbol(v ...uint8) *symbol {
+func NewSymbol(v ...uint8) Symbol {
 	s := &symbol{}
 	s.v = uint8(2)
 	if len(v) == 1 {

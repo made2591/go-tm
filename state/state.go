@@ -1,46 +1,53 @@
 package state
 
+import (
+	set "github.com/made2591/go-tm/set"
+)
+
+const (
+	INITIAL = ^uint8(0) - 1
+	FINAL   = ^uint8(0)
+)
+
 type State interface {
-	NewState(n uint, t *Set, s bool, f bool)
 	IsInitial() bool
 	IsFinal() bool
-	NextTransaction() *Transaction
 	GetValue() uint8
+	NextTransaction() Transaction
 }
 
 type state struct {
-	v uint
-	t *Set
-	s bool
-	f bool
+	v uint8
+	t set.Set
 }
 
-func NewEmptyState() *state {
+func NewInitialState() State {
 	s := &state{}
-	s.v = 0
-	s.t = NewSet()
-	s.s = false
-	s.f = false
+	s.v = INITIAL
+	s.t = set.NewSet()
 	return s
 }
 
-func NewState(n uint, t *Set, i bool, f bool) *state {
+func NewState(v uint8, t set.Set) State {
 	s := &state{}
-	s.v = 0
-	s.t = NewSet()
-	s.s = false
-	s.f = false
+	s.v = v
+	s.t = t
 	return s
 }
 
 func (s *state) IsInitial() bool {
-	return s.s
+	return s.v == INITIAL
 }
 
 func (s *state) IsFinal() bool {
-	return s.f
+	return s.v == FINAL
 }
 
-func (s *state) NextTransaction() bool {
-	return true
+func (s *state) GetValue() uint8 {
+	return s.v
+}
+
+func (s *state) NextTransaction() Transaction {
+	// TODO
+	return &transaction{}
 }
