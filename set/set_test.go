@@ -1,6 +1,8 @@
 package set
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNewSet(t *testing.T) {
 	set := NewSet()
@@ -41,6 +43,21 @@ func TestContains(t *testing.T) {
 	set.Remove("1")
 	if c := set.Contains("1"); c == true {
 		t.Errorf("Contains was incorrect, got: %t, want: %t.", c, false)
+	}
+
+}
+
+func TestIterator(t *testing.T) {
+
+	set := NewSet()
+	set.Add("1")
+	set.Add("2")
+	set.Add("3")
+	it := set.Iterator()
+	for _, e := range it {
+		if c := set.Contains(e); c == false {
+			t.Errorf("Iterator was incorrect, got: %t, want: %t.", c, true)
+		}
 	}
 
 }

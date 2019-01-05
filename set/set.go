@@ -1,6 +1,8 @@
 package set
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 var exists = struct{}{}
 
@@ -10,6 +12,7 @@ type Set interface {
 	GetOne() interface{}
 	Contains(v interface{}) bool
 	Cardinality() int
+	Iterator() []interface{}
 }
 
 type set struct {
@@ -44,6 +47,14 @@ func (s *set) Cardinality() int {
 		return 0
 	}
 	return len(s.m)
+}
+
+func (s *set) Iterator() []interface{} {
+	keys := make([]interface{}, 0)
+	for k, _ := range s.m {
+		keys = append(keys, k)
+	}
+	return keys
 }
 
 func randIntMapKey(m map[interface{}]interface{}) interface{} {
