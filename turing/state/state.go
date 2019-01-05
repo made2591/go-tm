@@ -13,7 +13,6 @@ type State interface {
 	IsInitial() bool
 	IsFinal() bool
 	GetValue() interface{}
-	NextTransaction() Transaction
 }
 
 type state struct {
@@ -45,9 +44,4 @@ func (s *state) IsFinal() bool {
 
 func (s *state) GetValue() interface{} {
 	return s.v
-}
-
-func (s *state) NextTransaction() Transaction {
-	// TODO
-	return &transaction{}
 }
