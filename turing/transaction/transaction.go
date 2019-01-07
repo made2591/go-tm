@@ -31,7 +31,7 @@ func NewTransaction(ist state.State, isy symbol.Symbol, fst state.State, fsy sym
 }
 
 func (t *transaction) Validate(m turingMachine.TuringMachine) bool {
-	return true
+	return false
 }
 
 func (t *transaction) Simulate() state.State {

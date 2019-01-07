@@ -8,28 +8,40 @@ import (
 type TuringMachine interface {
 	Run() bool
 	Step() bool
+	Computed() bool
 }
 
 type turingMachine struct {
-	is  set.Set
-	fs  set.Set
-	act state.State
-	pnt int
+	initialStates set.Set
+	finalStates   set.Set
+	transactions  set.Set
+	actualState   state.State
+	headPointer   int
 }
 
-func NewTuringMachine(is set.Set, fs set.Set) TuringMachine {
+func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions set.Set, actualState state.State) TuringMachine {
 	tm := &turingMachine{}
-	tm.is = is
-	tm.fs = fs
-	tm.act = nil
-	tm.pnt = 0
+	tm.initialStates = initialStates
+	tm.finalStates = finalStates
+	tm.transactions = transactions
+	tm.actualState = nil
+	tm.headPointer = 0
 	return tm
 }
 
 func (tm *turingMachine) Run() bool {
+	for !tm.Computed() {
+		tm.Step()
+	}
 	return true
 }
 
+func (tm *turingMachine) Computed() bool {
+	return tm.actualState.IsFinal()
+}
+
 func (tm *turingMachine) Step() bool {
-	return true
+	for _, transaction := range tm.transactions.Iterator() {
+
+	}
 }
