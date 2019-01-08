@@ -1,42 +1,47 @@
 package machine
 
 import (
+	"strings"
+
 	state "github.com/made2591/go-tm/turing/state"
 	symbol "github.com/made2591/go-tm/turing/symbol"
 )
 
+var ACTIONS = [...]string{"P", "E", "N"}
+
 type Transaction interface {
 	Validate(m TuringMachine) bool
-	Simulate() state.State
-	Execute() state.State
+	Simulate(m TuringMachine) state.State
+	Execute(m TuringMachine) state.State
 }
 
 type transaction struct {
-	ist state.State
-	isy symbol.Symbol
-	fst state.State
-	fsy symbol.Symbol
-	tst int8
+	currentState  state.State
+	symbolScanned symbol.Symbol
+	newState      state.State
+	symbolWritten symbol.Symbol
+	action        string
 }
 
-func NewTransaction(ist state.State, isy symbol.Symbol, fst state.State, fsy symbol.Symbol, tst int8) Transaction {
+func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newState state.State, symbolWritten symbol.Symbol, action string) Transaction {
 	t := &transaction{}
-	t.ist = ist
-	t.isy = isy
-	t.fst = fst
-	t.fsy = fsy
-	t.tst = tst
+	t.currentState = currentState
+	t.symbolScanned = symbolScanned
+	t.newState = newState
+	t.symbolWritten = symbolWritten
+	t.action = action
 	return t
 }
 
-func (t *transaction) Validate(m turingMachine.TuringMachine) bool {
+func (t *transaction) Validate(m TuringMachine) bool {
+	for _, a := range ACTIONS {
+		if strings.EqualFold(a, t.action) {
+			return true
+		}
+	}
 	return false
 }
 
-func (t *transaction) Simulate() state.State {
-	return t.fst
-}
-
-func (t *transaction) Execute() state.State {
-	return t.fst
+func (t *transaction) Simulate(m TuringMachine) state.State, symbol.Symbol, string {
+	return t.newState, t.symbolWritten, t.action
 }

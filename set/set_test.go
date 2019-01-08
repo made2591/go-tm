@@ -53,8 +53,8 @@ func TestIterator(t *testing.T) {
 	set.Add("1")
 	set.Add("2")
 	set.Add("3")
-	it := set.Iterator()
-	for _, e := range it {
+	elem := set.Iterator()
+	for e := range elem {
 		if c := set.Contains(e); c == false {
 			t.Errorf("Iterator was incorrect, got: %t, want: %t.", c, true)
 		}

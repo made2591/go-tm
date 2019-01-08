@@ -1,19 +1,24 @@
 package symbol
 
+import "fmt"
+
 const BLANK = uint8(2)
 
 type Symbol interface {
 	IsBlank() bool
-	GetValue() uint8
+	GetValue() interface{}
+	Print()
+	Erase()
+	None()
 }
 
 type symbol struct {
-	v uint8
+	v interface{}
 }
 
-func NewSymbol(v ...uint8) Symbol {
+func NewSymbol(v ...interface{}) Symbol {
 	s := &symbol{}
-	s.v = uint8(2)
+	s.v = BLANK
 	if len(v) == 1 {
 		if v[0] != BLANK {
 			s.v = v[0]
@@ -26,6 +31,17 @@ func (s *symbol) IsBlank() bool {
 	return s.v == BLANK
 }
 
-func (s *symbol) GetValue() uint8 {
+func (s *symbol) GetValue() interface{} {
 	return s.v
+}
+
+func (s *symbol) Print() {
+	fmt.Print(s.v)
+}
+
+func (s *symbol) Erase() {
+	s.v = BLANK
+}
+
+func (s *symbol) None() {
 }

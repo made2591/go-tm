@@ -12,7 +12,7 @@ type Set interface {
 	GetOne() interface{}
 	Contains(v interface{}) bool
 	Cardinality() int
-	Iterator() []interface{}
+	Iterator() <-chan interface{}
 }
 
 type set struct {
@@ -49,11 +49,12 @@ func (s *set) Cardinality() int {
 	return len(s.m)
 }
 
-func (s *set) Iterator() []interface{} {
-	keys := make([]interface{}, 0)
-	for k, _ := range s.m {
-		keys = append(keys, k)
+func (s *set) Iterator() <-chan interface{} {
+	keys := make(chan interface{}, len(s.m))
+	for k := range s.m {
+		keys <- k
 	}
+	close(keys)
 	return keys
 }
 

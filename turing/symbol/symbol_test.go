@@ -26,3 +26,11 @@ func TestGetValue(t *testing.T) {
 		t.Errorf("GetValue was incorrect, got: %d, want: %d.", v, uint8(1))
 	}
 }
+
+func TestErase(t *testing.T) {
+	s := NewSymbol(uint8(1))
+	s.Erase()
+	if v := s.GetValue(); v != BLANK {
+		t.Errorf("Erase was incorrect, got: %d, want: %d.", v, uint8(BLANK))
+	}
+}
