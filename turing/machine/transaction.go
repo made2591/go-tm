@@ -1,13 +1,12 @@
-package transaction
+package machine
 
 import (
-	turingMachine "github.com/made2591/go-tm/turing/machine"
 	state "github.com/made2591/go-tm/turing/state"
 	symbol "github.com/made2591/go-tm/turing/symbol"
 )
 
 type Transaction interface {
-	Validate(m turingMachine.TuringMachine) bool
+	Validate(m TuringMachine) bool
 	Simulate() state.State
 	Execute() state.State
 }

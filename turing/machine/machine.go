@@ -6,7 +6,7 @@ import (
 )
 
 type TuringMachine interface {
-	Run() bool
+	Run()
 	Step() bool
 	Computed() bool
 }
@@ -29,19 +29,20 @@ func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions s
 	return tm
 }
 
-func (tm *turingMachine) Run() bool {
+func (tm *turingMachine) Run() {
 	for !tm.Computed() {
 		tm.Step()
 	}
-	return true
 }
 
 func (tm *turingMachine) Computed() bool {
 	return tm.actualState.IsFinal()
 }
 
-func (tm *turingMachine) Step() bool {
-	for _, transaction := range tm.transactions.Iterator() {
-
+func (tm *turingMachine) Step() state.State {
+	t := NewTransaction(nil, nil, nil, nil, 0)
+	for _, t = range tm.transactions.Iterator() {
+		return t.Execute()
 	}
+	return nil
 }
