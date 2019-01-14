@@ -11,8 +11,12 @@ var ACTIONS = [...]string{"P", "E", "N"}
 
 type Transaction interface {
 	Validate(m TuringMachine) bool
-	Simulate(m TuringMachine) state.State
-	Execute(m TuringMachine) state.State
+	Simulate(m TuringMachine) (state.State, symbol.Symbol, string)
+	GetCurrentState() state.State
+	GetSymbolScanned() symbol.Symbol
+	GetNewState() state.State
+	GetSymbolWritten() symbol.Symbol
+	GetAction() string
 }
 
 type transaction struct {
@@ -36,12 +40,34 @@ func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newSt
 func (t *transaction) Validate(m TuringMachine) bool {
 	for _, a := range ACTIONS {
 		if strings.EqualFold(a, t.action) {
-			return true
+			if m.GetActualSymbol().GetValue() == t.symbolScanned {
+				return true
+			}
 		}
 	}
 	return false
 }
 
-func (t *transaction) Simulate(m TuringMachine) state.State, symbol.Symbol, string {
+func (t *transaction) Simulate(m TuringMachine) (state.State, symbol.Symbol, string) {
 	return t.newState, t.symbolWritten, t.action
+}
+
+func (t *transaction) GetCurrentState() state.State {
+	return t.currentState
+}
+
+func (t *transaction) GetSymbolScanned() symbol.Symbol {
+	return t.symbolScanned
+}
+
+func (t *transaction) GetNewState() state.State {
+	return t.newState
+}
+
+func (t *transaction) GetSymbolWritten() symbol.Symbol {
+	return t.symbolWritten
+}
+
+func (t *transaction) GetAction() string {
+	return t.action
 }

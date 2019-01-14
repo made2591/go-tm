@@ -27,10 +27,11 @@ func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions s
 	tm.initialStates = initialStates
 	tm.finalStates = finalStates
 	tm.transactions = transactions
-	tm.actualState = initialStates.GetOne()
+	tm.actualState = initialStates.GetOne().(state.State)
 	tm.headPointer = 0
-	tm.tape = make([]*symbol.Symbol{})
-	tm.tape = append(tm.tape, tm.actualState)
+	tm.tape = make([]*symbol.Symbol, 0)
+	s := symbol.NewSymbol()
+	tm.tape = append(tm.tape, &s)
 	return tm
 }
 
@@ -45,30 +46,31 @@ func (tm *turingMachine) Computed() bool {
 }
 
 func (tm *turingMachine) Step() state.State {
-	for t := range tm.transactions.Iterator() {
-		tm.Execute(t)
+	for _, t := range tm.transactions.Iterator() {
+		tm.Execute(t.(Transaction))
 		return tm.actualState
 	}
 	return tm.actualState
 }
 
-func (tm *turingMachine) Execute(m TuringMachine) state.State {
-	if t.Validate(m) {
-		switch t.action {
+func (tm *turingMachine) Execute(t Transaction) state.State {
+	if t.Validate(tm) {
+		switch t.GetAction() {
 		case "P":
-			m.GetActualSymbol().Print()
+			tm.GetActualSymbol().Print()
 		case "E":
-			m.GetActualSymbol().Erase()
+			tm.GetActualSymbol().Erase()
 		default:
-			m.GetActualSymbol().None()
+			tm.GetActualSymbol().None()
 		}
 
 	}
-	return m.GetActualState()
+	tm.actualState = t.GetNewState()
+	return tm.actualState
 }
 
 func (tm *turingMachine) GetActualSymbol() symbol.Symbol {
-	return tm.tape[headPointer]
+	return *tm.tape[tm.headPointer]
 }
 
 func (tm *turingMachine) GetActualState() state.State {
