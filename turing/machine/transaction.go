@@ -11,7 +11,7 @@ var ACTIONS = [...]string{"P", "E", "N"}
 
 type Transaction interface {
 	Validate(m TuringMachine) bool
-	Simulate(m TuringMachine) (state.State, symbol.Symbol, string)
+	Simulate() (state.State, symbol.Symbol, string)
 	GetCurrentState() state.State
 	GetSymbolScanned() symbol.Symbol
 	GetNewState() state.State
@@ -40,7 +40,7 @@ func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newSt
 func (t *transaction) Validate(m TuringMachine) bool {
 	for _, a := range ACTIONS {
 		if strings.EqualFold(a, t.action) {
-			if m.GetActualSymbol().GetValue() == t.symbolScanned {
+			if m.GetActualSymbol().GetValue().(uint8) == t.symbolScanned.GetValue().(uint8) {
 				return true
 			}
 		}
@@ -48,7 +48,7 @@ func (t *transaction) Validate(m TuringMachine) bool {
 	return false
 }
 
-func (t *transaction) Simulate(m TuringMachine) (state.State, symbol.Symbol, string) {
+func (t *transaction) Simulate() (state.State, symbol.Symbol, string) {
 	return t.newState, t.symbolWritten, t.action
 }
 

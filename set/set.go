@@ -34,7 +34,7 @@ func (s *set) Remove(value interface{}) {
 }
 
 func (s *set) GetOne() interface{} {
-	return randIntMapKey
+	return randIntMapKey(s.m)
 }
 
 func (s *set) Contains(value interface{}) bool {
@@ -57,7 +57,7 @@ func (s *set) Iterator() []interface{} {
 	return keys
 }
 
-func randIntMapKey(m map[interface{}]interface{}) interface{} {
+func randIntMapKey(m map[interface{}]struct{}) interface{} {
 	for _, i := range rand.Perm(len(m)) {
 		return i
 	}

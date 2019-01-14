@@ -23,14 +23,12 @@ type state struct {
 func NewInitialState() State {
 	s := &state{}
 	s.v = INITIAL
-	s.t = set.NewSet()
 	return s
 }
 
-func NewState(v interface{}, t set.Set) State {
+func NewState(v interface{}) State {
 	s := &state{}
 	s.v = v
-	s.t = t
 	return s
 }
 

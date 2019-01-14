@@ -2,8 +2,6 @@ package state
 
 import (
 	"testing"
-
-	"github.com/made2591/go-tm/set"
 )
 
 func TestNewInitialState(t *testing.T) {
@@ -17,7 +15,7 @@ func TestNewInitialState(t *testing.T) {
 }
 
 func TestNewState(t *testing.T) {
-	state := NewState(uint8(1), set.NewSet())
+	state := NewState(uint8(1))
 	if state == nil {
 		t.Errorf("NewState was incorrect, got: nil")
 	}
@@ -27,7 +25,7 @@ func TestNewState(t *testing.T) {
 }
 
 func TestIsInitial(t *testing.T) {
-	state := NewState(INITIAL, set.NewSet())
+	state := NewState(INITIAL)
 	if state == nil {
 		t.Errorf("IsInitial was incorrect, got: nil")
 	}
@@ -37,7 +35,7 @@ func TestIsInitial(t *testing.T) {
 }
 
 func TestIsFinal(t *testing.T) {
-	state := NewState(FINAL, set.NewSet())
+	state := NewState(FINAL)
 	if state == nil {
 		t.Errorf("IsFinal was incorrect, got: nil")
 	}
@@ -47,7 +45,7 @@ func TestIsFinal(t *testing.T) {
 }
 
 func TestGetValue(t *testing.T) {
-	state := NewState(uint8(1), set.NewSet())
+	state := NewState(uint8(1))
 	if state == nil {
 		t.Errorf("GetValue was incorrect, got: nil")
 	}
