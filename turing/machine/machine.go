@@ -19,7 +19,7 @@ type turingMachine struct {
 	transactions  set.Set
 	actualState   state.State
 	headPointer   int
-	tape          []*symbol.Symbol
+	tape          []symbol.Symbol
 }
 
 func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions set.Set, actualState state.State) TuringMachine {
@@ -27,11 +27,11 @@ func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions s
 	tm.initialStates = initialStates
 	tm.finalStates = finalStates
 	tm.transactions = transactions
-	tm.actualState = initialStates.GetOne().(state.State)
+	tm.actualState = actualState
 	tm.headPointer = 0
-	tm.tape = make([]*symbol.Symbol, 0)
+	tm.tape = make([]symbol.Symbol, 0)
 	s := symbol.NewSymbol()
-	tm.tape = append(tm.tape, &s)
+	tm.tape = append(tm.tape, s)
 	return tm
 }
 
@@ -70,7 +70,7 @@ func (tm *turingMachine) Execute(t Transaction) state.State {
 }
 
 func (tm *turingMachine) GetActualSymbol() symbol.Symbol {
-	return *tm.tape[tm.headPointer]
+	return tm.tape[tm.headPointer]
 }
 
 func (tm *turingMachine) GetActualState() state.State {

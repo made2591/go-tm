@@ -10,6 +10,7 @@ type Symbol interface {
 	Print()
 	Erase()
 	None()
+	Equal(c Symbol) bool
 }
 
 type symbol struct {
@@ -44,4 +45,8 @@ func (s *symbol) Erase() {
 }
 
 func (s *symbol) None() {
+}
+
+func (s *symbol) Equal(c Symbol) bool {
+	return s.GetValue() == c.GetValue()
 }

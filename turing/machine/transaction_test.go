@@ -45,7 +45,7 @@ func TestSimulate(t *testing.T) {
 	if v := sw.GetValue(); v != uint8(6) {
 		t.Errorf("Simulate was incorrect, got: %d, want: %d.", v, uint8(6))
 	}
-	if strings.EqualFold(ac, "P") {
+	if strings.EqualFold(ac, "P") == false {
 		t.Errorf("Simulate was incorrect, got: %s, want: %s.", ac, "P")
 	}
 
@@ -90,7 +90,7 @@ func TestGetSymbolWritten(t *testing.T) {
 func TestGetAction(t *testing.T) {
 
 	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
-	if ac := tr.GetAction(); strings.EqualFold(ac, "P") {
+	if ac := tr.GetAction(); strings.EqualFold(ac, "P") == false {
 		t.Errorf("GetAction was incorrect, got: %s, want: %s.", ac, "P")
 	}
 
