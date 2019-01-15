@@ -22,14 +22,14 @@ func TestNewTransaction(t *testing.T) {
 
 func TestValidate(t *testing.T) {
 	initialStates := set.NewSet()
-	s := state.NewInitialState()
+	s := state.NewState(uint8(4))
 	initialStates.Add(s)
 	finalStates := set.NewSet()
 	transactions := set.NewSet()
-	tr := NewTransaction(nil, nil, state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
+	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
 	transactions.Add(tr)
 	actualState := s
-	tm := NewTuringMachine(initialStates, finalStates, transactions, actualState)
+	tm := NewTuringMachine(initialStates, finalStates, transactions, actualState, symbol.NewSymbol(uint8(4)))
 	if v := tr.Validate(tm); v != true {
 		t.Errorf("Validate was incorrect, got: %t, want: %t.", v, true)
 	}

@@ -40,7 +40,7 @@ func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newSt
 func (t *transaction) Validate(m TuringMachine) bool {
 	for _, a := range ACTIONS {
 		if strings.EqualFold(a, t.action) {
-			return m.GetActualSymbol().Equal(t.symbolScanned)
+			return t.symbolScanned.Equal(m.GetActualSymbol())
 		}
 	}
 	return false

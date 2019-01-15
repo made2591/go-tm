@@ -17,7 +17,7 @@ func TestNewTuringMachine(t *testing.T) {
 	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
 	transactions.Add(tr)
 	actualState := s
-	tm := NewTuringMachine(initialStates, finalStates, transactions, actualState)
+	tm := NewTuringMachine(initialStates, finalStates, transactions, actualState, symbol.NewSymbol(uint8(4)))
 	if tm == nil {
 		t.Errorf("NewTuringMachine was incorrect, got: nil")
 	}

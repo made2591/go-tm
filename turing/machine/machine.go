@@ -22,7 +22,7 @@ type turingMachine struct {
 	tape          []symbol.Symbol
 }
 
-func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions set.Set, actualState state.State) TuringMachine {
+func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions set.Set, actualState state.State, firstSymbol symbol.Symbol) TuringMachine {
 	tm := &turingMachine{}
 	tm.initialStates = initialStates
 	tm.finalStates = finalStates
@@ -30,8 +30,7 @@ func NewTuringMachine(initialStates set.Set, finalStates set.Set, transactions s
 	tm.actualState = actualState
 	tm.headPointer = 0
 	tm.tape = make([]symbol.Symbol, 0)
-	s := symbol.NewSymbol()
-	tm.tape = append(tm.tape, s)
+	tm.tape = append(tm.tape, firstSymbol)
 	return tm
 }
 
