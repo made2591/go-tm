@@ -5,51 +5,85 @@ import (
 )
 
 func TestNewInitialState(t *testing.T) {
-	state := NewInitialState()
-	if state == nil {
+
+	s := NewInitialState()
+
+	if s == nil {
 		t.Errorf("NewInitialState was incorrect, got: nil")
 	}
-	if v := state.GetIdentifier(); v != INITIAL {
-		t.Errorf("NewInitialState was incorrect, got: %d, want: %+v.", v, INITIAL)
+
+	if i := s.GetIdentifier(); i != INITIAL {
+		t.Errorf("NewInitialState was incorrect, got: %d, want: %+v.", i, INITIAL)
 	}
+
 }
 
 func TestNewState(t *testing.T) {
-	state := NewState(uint8(1))
-	if state == nil {
-		t.Errorf("NewState was incorrect, got: nil")
+
+	s := NewState(uint8(1))
+
+	if s == nil {
+		t.Errorf("NewState was() incorrect, got: nil")
 	}
-	if v := state.GetIdentifier(); v != uint8(1) {
-		t.Errorf("NewState was incorrect, got: %d, want: %+v.", v, uint8(1))
+
+	if i := s.GetIdentifier(); i != uint8(1) {
+		t.Errorf("NewState was() incorrect, got: %d, want: %+v.", i, uint8(1))
 	}
+
+}
+
+func TestNewFinalState(t *testing.T) {
+
+	s := NewFinalState()
+
+	if s == nil {
+		t.Errorf("NewFinalState() was incorrect, got: nil")
+	}
+
+	if i := s.GetIdentifier(); i != FINAL {
+		t.Errorf("NewFinalState() was incorrect, got: %d, want: %+v.", i, FINAL)
+	}
+
 }
 
 func TestIsInitial(t *testing.T) {
+
 	state := NewState(INITIAL)
+
 	if state == nil {
-		t.Errorf("IsInitial was incorrect, got: nil")
+		t.Errorf("IsInitial() was incorrect, got: nil")
 	}
-	if v := state.IsInitial(); v != true {
-		t.Errorf("IsInitial was incorrect, got: %t, want: %t.", v, true)
+
+	if i := state.IsInitial(); i != true {
+		t.Errorf("IsInitial() was incorrect, got: %t, want: %t.", i, true)
 	}
+
 }
 
 func TestIsFinal(t *testing.T) {
-	state := NewState(FINAL)
-	if state == nil {
-		t.Errorf("IsFinal was incorrect, got: nil")
+
+	s := NewState(INITIAL)
+
+	if s == nil {
+		t.Errorf("IsFinal() was incorrect, got: nil")
 	}
-	if v := state.IsFinal(); v != true {
-		t.Errorf("IsFinal was incorrect, got: %t, want: %t.", v, true)
+
+	if i := s.IsFinal(); i != true {
+		t.Errorf("IsFinal() was incorrect, got: %t, want: %t.", i, true)
 	}
+
 }
 
 func TestGetIdentifier(t *testing.T) {
-	state := NewState(uint8(1))
-	if state == nil {
+
+	s := NewState(uint8(1))
+
+	if s == nil {
 		t.Errorf("GetIdentifier was incorrect, got: nil")
 	}
-	if v := state.GetIdentifier(); v != uint8(1) {
-		t.Errorf("GetIdentifier was incorrect, got: %d, want: %d.", v, uint8(1))
+
+	if i := s.GetIdentifier(); i != uint8(1) {
+		t.Errorf("GetIdentifier was incorrect, got: %d, want: %d.", i, uint8(1))
 	}
+
 }
