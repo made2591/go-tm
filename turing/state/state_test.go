@@ -9,7 +9,7 @@ func TestNewInitialState(t *testing.T) {
 	if state == nil {
 		t.Errorf("NewInitialState was incorrect, got: nil")
 	}
-	if v := state.GetValue(); v != INITIAL {
+	if v := state.GetIdentifier(); v != INITIAL {
 		t.Errorf("NewInitialState was incorrect, got: %d, want: %+v.", v, INITIAL)
 	}
 }
@@ -19,7 +19,7 @@ func TestNewState(t *testing.T) {
 	if state == nil {
 		t.Errorf("NewState was incorrect, got: nil")
 	}
-	if v := state.GetValue(); v != uint8(1) {
+	if v := state.GetIdentifier(); v != uint8(1) {
 		t.Errorf("NewState was incorrect, got: %d, want: %+v.", v, uint8(1))
 	}
 }
@@ -44,12 +44,12 @@ func TestIsFinal(t *testing.T) {
 	}
 }
 
-func TestGetValue(t *testing.T) {
+func TestGetIdentifier(t *testing.T) {
 	state := NewState(uint8(1))
 	if state == nil {
-		t.Errorf("GetValue was incorrect, got: nil")
+		t.Errorf("GetIdentifier was incorrect, got: nil")
 	}
-	if v := state.GetValue(); v != uint8(1) {
-		t.Errorf("GetValue was incorrect, got: %d, want: %d.", v, uint8(1))
+	if v := state.GetIdentifier(); v != uint8(1) {
+		t.Errorf("GetIdentifier was incorrect, got: %d, want: %d.", v, uint8(1))
 	}
 }
