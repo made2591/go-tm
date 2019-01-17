@@ -27,7 +27,7 @@ func TestValidate(t *testing.T) {
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "R")
+	tr := NewTransaction(s, symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "R")
 	trs.Add(tr)
 
 	as := s

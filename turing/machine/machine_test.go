@@ -32,30 +32,23 @@ func TestNewTuringMachine(t *testing.T) {
 func TestRun(t *testing.T) {
 
 	iss := set.NewSet()
-	s := state.NewState(uint8(4))
-	iss.Add(s)
-
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr1 := NewTransaction(state.NewState(uint8(0)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "P")
-	tr2 := NewTransaction(state.NewState(uint8(0)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "P")
-	tr3 := NewTransaction(state.NewState(uint8(1)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "P")
-	tr4 := NewTransaction(state.NewState(uint8(1)), symbol.NewSymbol(uint8(1)), state.NewState(state.FINAL), symbol.NewSymbol(uint8(6)), "P")
+	tr1 := NewTransaction(state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "R")
+	tr2 := NewTransaction(state.NewState(uint8(0)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "L")
+	tr3 := NewTransaction(state.NewState(uint8(1)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(1)), symbol.NewSymbol(uint8(6)), "R")
+	tr4 := NewTransaction(state.NewState(uint8(1)), symbol.NewSymbol(uint8(1)), state.NewState(state.FINAL), symbol.NewSymbol(uint8(6)), "L")
 	trs.Add(tr1)
 	trs.Add(tr2)
 	trs.Add(tr3)
 	trs.Add(tr4)
-	// 	A	B
-	// 0	1RB	1LA
-	// 1	1LB	1RH
+	//    A   B
+	// 0 1RB 1LA
+	// 1 1LB 1RH
 
-	as := s
-
-	tm := NewTuringMachine(iss, fss, trs, as, symbol.NewSymbol(uint8(0)))
-	if tm == nil {
-		t.Errorf("NewTuringMachine was incorrect, got: nil")
-	}
+	tm := NewTuringMachine(iss, fss, trs, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
+	tm.Run()
 
 }
 

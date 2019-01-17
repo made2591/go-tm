@@ -1,6 +1,9 @@
 package machine
 
 import (
+	"fmt"
+	"strings"
+
 	set "github.com/made2591/go-tm/set"
 	state "github.com/made2591/go-tm/turing/state"
 	symbol "github.com/made2591/go-tm/turing/symbol"
@@ -13,7 +16,7 @@ type TuringMachine interface {
 	Computed() bool
 	GetActualSymbol() symbol.Symbol
 	GetActualState() state.State
-	MoveHeadPointer() int64
+	MoveHeadPointer(s symbol.Symbol, m string) int
 }
 
 // turingMachine struct
@@ -46,6 +49,7 @@ func NewTuringMachine(iss set.Set, fss set.Set, trs set.Set, as state.State, fs 
 func (tm *turingMachine) Run() {
 
 	for !tm.Computed() {
+		fmt.Println(tm)
 		tm.Step()
 	}
 
@@ -74,7 +78,7 @@ func (tm *turingMachine) Step() state.State {
 func (tm *turingMachine) Execute(t Transaction) state.State {
 
 	if t.Validate(tm) {
-		tm.MoveHeadPointer(t.GetMoveTape())
+		tm.MoveHeadPointer(t.GetSymbolWritten(), t.GetMoveTape())
 		tm.actualState = t.GetNewState()
 	}
 	return tm.actualState
@@ -96,8 +100,15 @@ func (tm *turingMachine) GetActualState() state.State {
 }
 
 // MoveHeadPointer() Move the head pointer to
-func (tm *turingMachine) MoveHeadPointer() int64 {
+func (tm *turingMachine) MoveHeadPointer(s symbol.Symbol, m string) int {
 
-	//TODO
+	if strings.EqualFold(m, "R") {
+		tm.headPointer += 1
+		tm.tape = append(tm.tape, s)
+	} else {
+		tm.headPointer -= 1
+		tm.tape = append([]symbol.Symbol{s}, tm.tape...)
+	}
+	return tm.headPointer
 
 }
