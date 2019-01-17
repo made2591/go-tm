@@ -16,6 +16,7 @@ type State interface {
 	IsInitial() bool
 	IsFinal() bool
 	GetIdentifier() interface{}
+	Equal(s State) bool
 }
 
 // state struct
@@ -24,7 +25,7 @@ type state struct {
 	t set.Set
 }
 
-// NewInitialState() Create a new State of Initial Identifier
+// NewInitialState() Create a new State with INITIAL Identifier
 func NewInitialState() State {
 
 	s := &state{}
@@ -33,7 +34,7 @@ func NewInitialState() State {
 
 }
 
-// NewState() Create a new State of Initial Identifier
+// NewState() Create a new State with initial identifier
 func NewState(v interface{}) State {
 
 	s := &state{}
@@ -42,7 +43,7 @@ func NewState(v interface{}) State {
 
 }
 
-// NewFinalState() Create a new State of Final Identifier
+// NewFinalState() Create a new State with FINAL Identifier
 func NewFinalState() State {
 
 	s := &state{}
@@ -51,23 +52,31 @@ func NewFinalState() State {
 
 }
 
-// IsInitial() Create a new State of Final Identifier
+// IsInitial() Check if s State has INITIAL identifier or not.
 func (s *state) IsInitial() bool {
 
 	return s.i == INITIAL
 
 }
 
-// IsInitial() Create a new State of Final Identifier
+// IsFinal() Check if s State is has FINAL identifier or not.
 func (s *state) IsFinal() bool {
 
 	return s.i == FINAL
 
 }
 
-// GetIdentifier() Create a new State of Final Identifier
+// GetIdentifier() Get identifier of a State
 func (s *state) GetIdentifier() interface{} {
 
 	return s.i
+
+}
+
+// Equal(c State) compare s to c and return true
+// if their identifier are equal
+func (s *state) Equal(c State) bool {
+
+	return s.GetIdentifier() == c.GetIdentifier()
 
 }

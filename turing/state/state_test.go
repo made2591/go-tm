@@ -62,7 +62,7 @@ func TestIsInitial(t *testing.T) {
 
 func TestIsFinal(t *testing.T) {
 
-	s := NewState(INITIAL)
+	s := NewState(FINAL)
 
 	if s == nil {
 		t.Errorf("IsFinal() was incorrect, got: nil")
@@ -84,6 +84,22 @@ func TestGetIdentifier(t *testing.T) {
 
 	if i := s.GetIdentifier(); i != uint8(1) {
 		t.Errorf("GetIdentifier was incorrect, got: %d, want: %d.", i, uint8(1))
+	}
+
+}
+
+func TestEqual(t *testing.T) {
+
+	s1 := NewState(uint8(1))
+	s2 := NewState(uint8(1))
+	if s1.Equal(s2) == false {
+		t.Errorf("Equal() was incorrect, got: %t, want: %t.", false, true)
+	}
+
+	s1 = NewState(uint8(1))
+	s2 = NewState(uint8(3))
+	if s1.Equal(s2) == true {
+		t.Errorf("Equal() was incorrect, got: %t, want: %t.", true, false)
 	}
 
 }
