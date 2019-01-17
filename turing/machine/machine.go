@@ -13,6 +13,7 @@ type TuringMachine interface {
 	Computed() bool
 	GetActualSymbol() symbol.Symbol
 	GetActualState() state.State
+	MoveHeadPointer() int64
 }
 
 // turingMachine struct
@@ -73,17 +74,9 @@ func (tm *turingMachine) Step() state.State {
 func (tm *turingMachine) Execute(t Transaction) state.State {
 
 	if t.Validate(tm) {
-		switch t.GetAction() {
-		case "P":
-			tm.GetActualSymbol().Print()
-		case "E":
-			tm.GetActualSymbol().Erase()
-		default:
-			tm.GetActualSymbol().None()
-		}
-
+		tm.MoveHeadPointer(t.GetMoveTape())
+		tm.actualState = t.GetNewState()
 	}
-	tm.actualState = t.GetNewState()
 	return tm.actualState
 
 }
@@ -99,5 +92,12 @@ func (tm *turingMachine) GetActualSymbol() symbol.Symbol {
 func (tm *turingMachine) GetActualState() state.State {
 
 	return tm.actualState
+
+}
+
+// MoveHeadPointer() Move the head pointer to
+func (tm *turingMachine) MoveHeadPointer() int64 {
+
+	//TODO
 
 }

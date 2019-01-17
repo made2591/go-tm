@@ -7,7 +7,7 @@ import (
 	symbol "github.com/made2591/go-tm/turing/symbol"
 )
 
-var ACTIONS = [...]string{"P", "E", "N"}
+var ACTIONS = [...]string{"R", "L", "N"}
 
 // Transaction interface
 type Transaction interface {
@@ -17,7 +17,7 @@ type Transaction interface {
 	GetSymbolScanned() symbol.Symbol
 	GetNewState() state.State
 	GetSymbolWritten() symbol.Symbol
-	GetAction() string
+	GetMoveTape() string
 }
 
 // transaction struct
@@ -26,19 +26,19 @@ type transaction struct {
 	symbolScanned symbol.Symbol
 	newState      state.State
 	symbolWritten symbol.Symbol
-	action        string
+	moveTape      string
 }
 
 // NewTransaction() Create a new Transaction with given
-// currentState, symbolScanned, symbolWritten and action
-func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newState state.State, symbolWritten symbol.Symbol, action string) Transaction {
+// currentState, symbolScanned, symbolWritten and moveTape action
+func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newState state.State, symbolWritten symbol.Symbol, moveTape string) Transaction {
 
 	t := &transaction{}
 	t.currentState = currentState
 	t.symbolScanned = symbolScanned
 	t.newState = newState
 	t.symbolWritten = symbolWritten
-	t.action = action
+	t.moveTape = moveTape
 
 	return t
 
@@ -54,9 +54,9 @@ func NewTransaction(currentState state.State, symbolScanned symbol.Symbol, newSt
 // true; it returns otherwise
 func (t *transaction) Validate(m TuringMachine) bool {
 
-	// check if action is allowed
+	// check if moveTape action is allowed
 	for _, a := range ACTIONS {
-		if strings.EqualFold(a, t.action) {
+		if strings.EqualFold(a, t.moveTape) {
 			// check if actual state and scanned symbol match with transaction
 			return t.currentState.Equal(m.GetActualState()) && t.symbolScanned.Equal(m.GetActualSymbol())
 		}
@@ -67,14 +67,14 @@ func (t *transaction) Validate(m TuringMachine) bool {
 }
 
 // Simulate() Return the state in which the transaction
-// will bring the TuringMachine, the symbol written and the action taken
-// over the symbol pointed by the TuringMachine's head. Pay attention
+// will bring the TuringMachine, the symbol written and the moveTape action
+// taken over the symbol pointed by the TuringMachine's head. Pay attention
 // that this method DOES NOT accept any TuringMachine, thus it doesn't
 // verify that the transaction is doable over any specific TuringMachine.
-// It returns a State, a Symbol and an action
+// It returns a State, a Symbol and an moveTape action
 func (t *transaction) Simulate() (state.State, symbol.Symbol, string) {
 
-	return t.newState, t.symbolWritten, t.action
+	return t.newState, t.symbolWritten, t.moveTape
 
 }
 
@@ -108,10 +108,10 @@ func (t *transaction) GetSymbolWritten() symbol.Symbol {
 
 }
 
-// GetAction() Return the action done by the
+// GetMoveTape() Return the moveTape action done by the
 // Transaction over the Symbol scanned
-func (t *transaction) GetAction() string {
+func (t *transaction) GetMoveTape() string {
 
-	return t.action
+	return t.moveTape
 
 }

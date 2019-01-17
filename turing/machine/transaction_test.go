@@ -11,7 +11,7 @@ import (
 
 func TestNewTransaction(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "R")
 	if tr == nil {
 		t.Errorf("NewTransaction was incorrect, got: nil")
 	}
@@ -27,7 +27,7 @@ func TestValidate(t *testing.T) {
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
+	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "R")
 	trs.Add(tr)
 
 	as := s
@@ -41,8 +41,8 @@ func TestValidate(t *testing.T) {
 
 func TestSimulate(t *testing.T) {
 
-	tr := NewTransaction(nil, nil, state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
-	ns, sw, ac := tr.Simulate()
+	tr := NewTransaction(nil, nil, state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "R")
+	ns, sw, mt := tr.Simulate()
 
 	if v := ns.GetIdentifier(); v != uint8(5) {
 		t.Errorf("Simulate was incorrect, got: %d, want: %d.", v, uint8(5))
@@ -52,15 +52,15 @@ func TestSimulate(t *testing.T) {
 		t.Errorf("Simulate was incorrect, got: %d, want: %d.", v, uint8(6))
 	}
 
-	if strings.EqualFold(ac, "P") == false {
-		t.Errorf("Simulate was incorrect, got: %s, want: %s.", ac, "P")
+	if strings.EqualFold(mt, "R") == false {
+		t.Errorf("Simulate was incorrect, got: %s, want: %s.", mt, "R")
 	}
 
 }
 
 func TestGetCurrentState(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
 	if v := tr.GetCurrentState().GetIdentifier(); v != uint8(5) {
 		t.Errorf("GetCurrentState was incorrect, got: %d, want: %d.", v, uint8(5))
 	}
@@ -69,7 +69,7 @@ func TestGetCurrentState(t *testing.T) {
 
 func TestGetSymbolScanned(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
 	if v := tr.GetSymbolScanned().GetValue(); v != uint8(3) {
 		t.Errorf("GetSymbolScanned was incorrect, got: %d, want: %d.", v, uint8(3))
 	}
@@ -78,7 +78,7 @@ func TestGetSymbolScanned(t *testing.T) {
 
 func TestGetNewState(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
 	if v := tr.GetNewState().GetIdentifier(); v != uint8(2) {
 		t.Errorf("GetNewState was incorrect, got: %d, want: %d.", v, uint8(2))
 	}
@@ -87,18 +87,18 @@ func TestGetNewState(t *testing.T) {
 
 func TestGetSymbolWritten(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
 	if v := tr.GetSymbolWritten().GetValue(); v != uint8(9) {
 		t.Errorf("GetSymbolWritten was incorrect, got: %d, want: %d.", v, uint8(9))
 	}
 
 }
 
-func TestGetAction(t *testing.T) {
+func TestGetMoveTape(t *testing.T) {
 
-	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "P")
-	if ac := tr.GetAction(); strings.EqualFold(ac, "P") == false {
-		t.Errorf("GetAction was incorrect, got: %s, want: %s.", ac, "P")
+	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
+	if mt := tr.GetMoveTape(); strings.EqualFold(mt, "R") == false {
+		t.Errorf("GetMoveTape was incorrect, got: %s, want: %s.", mt, "R")
 	}
 
 }
