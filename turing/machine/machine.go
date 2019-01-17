@@ -49,9 +49,9 @@ func NewTuringMachine(iss set.Set, fss set.Set, trs set.Set, as state.State, fs 
 func (tm *turingMachine) Run() {
 
 	for !tm.Computed() {
-		fmt.Println(tm)
 		tm.Step()
 	}
+	return
 
 }
 
@@ -66,10 +66,10 @@ func (tm *turingMachine) Computed() bool {
 func (tm *turingMachine) Step() state.State {
 
 	for _, t := range tm.transactions.Iterator() {
-		tm.Execute(t.(Transaction))
-		return tm.actualState
+		if t.(Transaction).Validate(tm) {
+			return tm.Execute(t.(Transaction))
+		}
 	}
-
 	return tm.actualState
 
 }
@@ -77,10 +77,24 @@ func (tm *turingMachine) Step() state.State {
 // Execute() Check if a TuringMachine reached a final State
 func (tm *turingMachine) Execute(t Transaction) state.State {
 
-	if t.Validate(tm) {
-		tm.MoveHeadPointer(t.GetSymbolWritten(), t.GetMoveTape())
-		tm.actualState = t.GetNewState()
+	fmt.Println("Actual state: ", tm.actualState)
+	fmt.Println("Actual symbol: ", tm.tape[tm.headPointer].GetValue())
+	fmt.Println("Actual tape/pointer")
+	for _, s := range tm.tape {
+		fmt.Print(s.GetValue())
 	}
+	fmt.Println()
+	for i, _ := range tm.tape {
+		if i == tm.headPointer {
+			fmt.Print("^")
+		} else {
+			fmt.Print(" ")
+		}
+	}
+	fmt.Println()
+	fmt.Println("Valid transaction: ", t.(Transaction).GetCurrentState(), t.(Transaction).GetSymbolScanned(), t.(Transaction).GetNewState(), t.(Transaction).GetSymbolWritten(), t.(Transaction).GetMoveTape())
+	tm.MoveHeadPointer(t.GetSymbolWritten(), t.GetMoveTape())
+	tm.actualState = t.GetNewState()
 	return tm.actualState
 
 }
@@ -107,6 +121,9 @@ func (tm *turingMachine) MoveHeadPointer(s symbol.Symbol, m string) int {
 		tm.tape = append(tm.tape, s)
 	} else {
 		tm.headPointer -= 1
+		if tm.headPointer < 0 {
+			tm.headPointer = 0
+		}
 		tm.tape = append([]symbol.Symbol{s}, tm.tape...)
 	}
 	return tm.headPointer
