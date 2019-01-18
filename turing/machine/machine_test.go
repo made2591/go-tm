@@ -56,8 +56,8 @@ func TestStep(t *testing.T) {
 func TestComputed(t *testing.T) {
 
 	tm := NewTuringMachine(nil, nil, nil, state.NewState(state.FINAL), symbol.NewSymbol(uint8(0)))
-	if c := tm.Computed(); c == false {
-		t.Errorf("Computed() was incorrect, got: %t, want: %t.", c, true)
+	if !tm.Computed() {
+		t.Errorf("Computed() was incorrect, got: %t, want: %t.", false, true)
 	}
 
 }

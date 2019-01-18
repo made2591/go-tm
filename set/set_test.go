@@ -15,8 +15,8 @@ func TestAdd(t *testing.T) {
 
 	set := NewSet()
 	set.Add("1")
-	if c := set.Contains("1"); c == false {
-		t.Errorf("Add was incorrect, got: %t, want: %t.", c, true)
+	if !set.Contains("1") {
+		t.Errorf("Add was incorrect, got: %t, want: %t.", false, true)
 	}
 
 }
@@ -26,8 +26,8 @@ func TestRemove(t *testing.T) {
 	set := NewSet()
 	set.Add("1")
 	set.Remove("1")
-	if c := set.Contains("1"); c == true {
-		t.Errorf("Remove was incorrect, got: %t, want: %t.", c, false)
+	if set.Contains("1") {
+		t.Errorf("Remove was incorrect, got: %t, want: %t.", true, false)
 	}
 
 }
@@ -36,13 +36,13 @@ func TestContains(t *testing.T) {
 
 	set := NewSet()
 	set.Add("1")
-	if c := set.Contains("1"); c == false {
-		t.Errorf("Contains was incorrect, got: %t, want: %t.", c, true)
+	if !set.Contains("1") {
+		t.Errorf("Contains was incorrect, got: %t, want: %t.", false, true)
 	}
 
 	set.Remove("1")
-	if c := set.Contains("1"); c == true {
-		t.Errorf("Contains was incorrect, got: %t, want: %t.", c, false)
+	if set.Contains("1") {
+		t.Errorf("Contains was incorrect, got: %t, want: %t.", true, false)
 	}
 
 }
@@ -55,7 +55,7 @@ func TestIterator(t *testing.T) {
 	set.Add("3")
 	elem := set.Iterator()
 	for _, e := range elem {
-		if c := set.Contains(e); c == false {
+		if c := set.Contains(e); !c {
 			t.Errorf("Iterator was incorrect, got: %t, want: %t.", c, true)
 		}
 	}

@@ -33,7 +33,7 @@ func TestValidate(t *testing.T) {
 	as := s
 
 	tm := NewTuringMachine(iss, fss, trs, as, symbol.NewSymbol(uint8(4)))
-	if v := tr.Validate(tm); v != true {
+	if v := tr.Validate(tm); !v {
 		t.Errorf("Validate was incorrect, got: %t, want: %t.", v, true)
 	}
 
@@ -52,7 +52,7 @@ func TestSimulate(t *testing.T) {
 		t.Errorf("Simulate was incorrect, got: %d, want: %d.", v, uint8(6))
 	}
 
-	if strings.EqualFold(mt, "R") == false {
+	if !strings.EqualFold(mt, "R") {
 		t.Errorf("Simulate was incorrect, got: %s, want: %s.", mt, "R")
 	}
 
@@ -97,7 +97,7 @@ func TestGetSymbolWritten(t *testing.T) {
 func TestGetMoveTape(t *testing.T) {
 
 	tr := NewTransaction(state.NewState(uint8(5)), symbol.NewSymbol(uint8(3)), state.NewState(uint8(2)), symbol.NewSymbol(uint8(9)), "R")
-	if mt := tr.GetMoveTape(); strings.EqualFold(mt, "R") == false {
+	if mt := tr.GetMoveTape(); !strings.EqualFold(mt, "R") {
 		t.Errorf("GetMoveTape was incorrect, got: %s, want: %s.", mt, "R")
 	}
 

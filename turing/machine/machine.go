@@ -9,7 +9,7 @@ import (
 	symbol "github.com/made2591/go-tm/turing/symbol"
 )
 
-const EMPTY_TAPE_LENGTH = 5
+const EmptyTapeLength = 5
 
 // TuringMachine interface
 type TuringMachine interface {
@@ -54,7 +54,6 @@ func (tm *turingMachine) Run() {
 	for !tm.Computed() {
 		tm.Step()
 	}
-	return
 
 }
 
@@ -112,11 +111,11 @@ func (tm *turingMachine) MoveHeadPointer(s symbol.Symbol, m string) int {
 	if strings.EqualFold(m, "R") {
 		tm.tape[tm.headPointer] = s
 		tm.tape = append(tm.tape, symbol.NewSymbol())
-		tm.headPointer += 1
+		tm.headPointer++
 	} else {
 		if strings.EqualFold(m, "L") {
 			tm.tape[tm.headPointer] = s
-			tm.headPointer -= 1
+			tm.headPointer--
 			if tm.headPointer < 0 {
 				tm.tape = append([]symbol.Symbol{symbol.NewSymbol()}, tm.tape...)
 				tm.headPointer = 0
@@ -134,18 +133,18 @@ func (tm *turingMachine) Print() string {
 	s = strings.Join([]string{s, fmt.Sprintf("Actual symbol on head: %d", tm.tape[tm.headPointer].GetValue())}, "\n")
 	s = strings.Join([]string{s, fmt.Sprintf("Actual tape pointer:   %d", tm.headPointer)}, "\n")
 	s = strings.Join([]string{s, ""}, "\n")
-	for i := 0; i < EMPTY_TAPE_LENGTH/2; i++ {
+	for i := 0; i < EmptyTapeLength/2; i++ {
 		s = strings.Join([]string{s, fmt.Sprintf("%d", symbol.BLANK)}, "")
 	}
 	for _, sy := range tm.tape {
 		s = strings.Join([]string{s, fmt.Sprintf("%d", sy.GetValue())}, "")
 	}
-	for i := 0; i < EMPTY_TAPE_LENGTH/2; i++ {
+	for i := 0; i < EmptyTapeLength/2; i++ {
 		s = strings.Join([]string{s, fmt.Sprintf("%d", symbol.BLANK)}, "")
 	}
 	s = strings.Join([]string{s, ""}, "\n")
-	for i := 0; i < len(tm.tape)+EMPTY_TAPE_LENGTH; i++ {
-		if i == tm.headPointer+(EMPTY_TAPE_LENGTH/2) {
+	for i := 0; i < len(tm.tape)+EmptyTapeLength; i++ {
+		if i == tm.headPointer+(EmptyTapeLength/2) {
 			s = strings.Join([]string{s, "^"}, "")
 		} else {
 			s = strings.Join([]string{s, " "}, "")

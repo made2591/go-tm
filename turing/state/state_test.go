@@ -68,8 +68,8 @@ func TestIsInitial(t *testing.T) {
 		t.Errorf("IsInitial() was incorrect, got: nil")
 	}
 
-	if i := state.IsInitial(); i != true {
-		t.Errorf("IsInitial() was incorrect, got: %t, want: %t.", i, true)
+	if !state.IsInitial() {
+		t.Errorf("IsInitial() was incorrect, got: %t, want: %t.", false, true)
 	}
 
 }
@@ -82,8 +82,8 @@ func TestIsFinal(t *testing.T) {
 		t.Errorf("IsFinal() was incorrect, got: nil")
 	}
 
-	if i := s.IsFinal(); i != true {
-		t.Errorf("IsFinal() was incorrect, got: %t, want: %t.", i, true)
+	if !s.IsFinal() {
+		t.Errorf("IsFinal() was incorrect, got: %t, want: %t.", false, true)
 	}
 
 }
@@ -92,13 +92,13 @@ func TestEqual(t *testing.T) {
 
 	s1 := NewState(uint8(1))
 	s2 := NewState(uint8(1))
-	if s1.Equal(s2) == false {
+	if !s1.Equal(s2) {
 		t.Errorf("Equal() was incorrect, got: %t, want: %t.", false, true)
 	}
 
 	s1 = NewState(uint8(1))
 	s2 = NewState(uint8(3))
-	if s1.Equal(s2) == true {
+	if s1.Equal(s2) {
 		t.Errorf("Equal() was incorrect, got: %t, want: %t.", true, false)
 	}
 

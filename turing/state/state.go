@@ -1,9 +1,5 @@
 package state
 
-import (
-	set "github.com/made2591/go-tm/set"
-)
-
 const (
 	// Initial State Identifier
 	INITIAL = ^uint8(0) - 1
@@ -22,7 +18,6 @@ type State interface {
 // state struct
 type state struct {
 	i interface{}
-	t set.Set
 }
 
 // NewState() Create a new State with initial identifier

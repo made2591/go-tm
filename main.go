@@ -35,7 +35,10 @@ func main() {
 		tm.Step()
 		buf := bufio.NewReader(os.Stdin)
 		fmt.Print("> ")
-		buf.ReadBytes('\n')
+		_, e := buf.ReadBytes('\n')
+		if e != nil {
+			fmt.Println("Error in pause")
+		}
 		if tm.Computed() {
 			fmt.Println("Final state reached")
 			break

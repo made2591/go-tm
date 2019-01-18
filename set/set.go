@@ -61,7 +61,7 @@ func (s *set) Cardinality() int {
 
 func (s *set) Iterator() []interface{} {
 	keys := make([]interface{}, 0)
-	for k, _ := range s.m {
+	for k := range s.m {
 		keys = append(keys, k)
 	}
 	return keys
