@@ -47,6 +47,19 @@ func TestContains(t *testing.T) {
 
 }
 
+func TestCardinality(t *testing.T) {
+
+	set := NewSet()
+	set.Add("1")
+	set.Add("2")
+	set.Add("3")
+	set.Add("3")
+	if set.Cardinality() != 3 {
+		t.Errorf("GetOne was incorrect, got: %d, wanted: %d", set.Cardinality(), 3)
+	}
+
+}
+
 func TestIterator(t *testing.T) {
 
 	set := NewSet()

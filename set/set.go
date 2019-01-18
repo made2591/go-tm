@@ -1,15 +1,10 @@
 package set
 
-import (
-	"math/rand"
-)
-
 var exists = struct{}{}
 
 type Set interface {
 	Add(v interface{})
 	Remove(v interface{})
-	GetOne() interface{}
 	Contains(v interface{}) bool
 	Cardinality() int
 	Iterator() []interface{}
@@ -31,20 +26,6 @@ func (s *set) Add(value interface{}) {
 
 func (s *set) Remove(value interface{}) {
 	delete(s.m, value)
-}
-
-func (s *set) GetOne() interface{} {
-	if len(s.Iterator()) == 1 {
-		for _, t := range s.Iterator() {
-			return t
-		}
-	}
-	for _, t := range s.Iterator() {
-		if rand.Intn(2) < 1 {
-			return t
-		}
-	}
-	return nil
 }
 
 func (s *set) Contains(value interface{}) bool {
