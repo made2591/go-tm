@@ -3,14 +3,14 @@ package symbol
 import "fmt"
 
 // BLANK value
-const BLANK = uint8(2)
+const BLANK = uint8(0)
 
 // Symbol interface
 type Symbol interface {
-	IsBlank() bool
 	GetValue() interface{}
-	Copy() Symbol
 	Equal(c Symbol) bool
+	Copy() Symbol
+	IsBlank() bool
 	Print() string
 	Erase()
 	None()
@@ -48,17 +48,32 @@ func NewSymbol(v ...interface{}) Symbol {
 
 }
 
-// IsBlank() Return true if the Symbol is BLANK Symbol
-func (s *symbol) IsBlank() bool {
-
-	return s.v == BLANK
-
-}
-
 // GetValue() Return the primitive value of the Symbol
 func (s *symbol) GetValue() interface{} {
 
 	return s.v
+
+}
+
+// Equal(c Symbol) compare s to c and return true
+// if their primitive value are equal
+func (s *symbol) Equal(c Symbol) bool {
+
+	return s.GetValue() == c.GetValue()
+
+}
+
+// Copy() Create a clone of the s Symbol
+func (s *symbol) Copy() Symbol {
+
+	return NewSymbol(s.GetValue())
+
+}
+
+// IsBlank() Return true if the Symbol is BLANK Symbol
+func (s *symbol) IsBlank() bool {
+
+	return s.v == BLANK
 
 }
 
@@ -77,20 +92,5 @@ func (s *symbol) Erase() {
 
 }
 
-// Copy() Create a clone of the s Symbol
-func (s *symbol) Copy() Symbol {
-
-	return NewSymbol(s.GetValue())
-
-}
-
 // None() Do nothing on the Symbol
 func (s *symbol) None() {}
-
-// Equal(c Symbol) compare s to c and return true
-// if their primitive value are equal
-func (s *symbol) Equal(c Symbol) bool {
-
-	return s.GetValue() == c.GetValue()
-
-}

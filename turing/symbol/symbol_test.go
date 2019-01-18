@@ -26,22 +26,6 @@ func TestNewSymbol(t *testing.T) {
 
 }
 
-func TestIsBlank(t *testing.T) {
-
-	// test IsBlank() over a BLANK Symbol
-	s1 := NewSymbol()
-	if s1.IsBlank() == false {
-		t.Errorf("IsBlank() was incorrect, got: %t, want: %t.", s1, true)
-	}
-
-	s2 := NewSymbol(uint8(1))
-	// test NewSymbol() over a NOT BLANK Symbol
-	if s2.IsBlank() == true {
-		t.Errorf("IsBlank() was incorrect, got: %t, want: %t.", s2, false)
-	}
-
-}
-
 func TestGetValue(t *testing.T) {
 
 	// test empty symbol creation
@@ -62,17 +46,6 @@ func TestGetValue(t *testing.T) {
 	s = NewSymbol(v2)
 	if v := s.GetValue(); v != v2 {
 		t.Errorf("GetValue() was incorrect, got: %d, want: %d.", v, v2)
-	}
-
-}
-
-func TestErase(t *testing.T) {
-
-	// test erase a Symbol
-	s := NewSymbol(uint8(1))
-	s.Erase()
-	if v := s.GetValue(); v != BLANK {
-		t.Errorf("Erase was incorrect, got: %d, want: %d.", v, uint8(BLANK))
 	}
 
 }
@@ -109,6 +82,33 @@ func TestCopy(t *testing.T) {
 	s2 := s1.Copy()
 	if s1.Equal(s2) == false {
 		t.Errorf("Copy() was incorrect, got: %t, want: %t.", false, true)
+	}
+
+}
+
+func TestIsBlank(t *testing.T) {
+
+	// test IsBlank() over a BLANK Symbol
+	s1 := NewSymbol()
+	if s1.IsBlank() == false {
+		t.Errorf("IsBlank() was incorrect, got: %t, want: %t.", s1, true)
+	}
+
+	s2 := NewSymbol(uint8(1))
+	// test NewSymbol() over a NOT BLANK Symbol
+	if s2.IsBlank() == true {
+		t.Errorf("IsBlank() was incorrect, got: %t, want: %t.", s2, false)
+	}
+
+}
+
+func TestErase(t *testing.T) {
+
+	// test erase a Symbol
+	s := NewSymbol(uint8(1))
+	s.Erase()
+	if v := s.GetValue(); v != BLANK {
+		t.Errorf("Erase was incorrect, got: %d, want: %d.", v, uint8(BLANK))
 	}
 
 }

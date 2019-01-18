@@ -1,9 +1,7 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"os"
+	"testing"
 
 	set "github.com/made2591/go-tm/set"
 	transaction "github.com/made2591/go-tm/turing/machine"
@@ -12,7 +10,7 @@ import (
 	symbol "github.com/made2591/go-tm/turing/symbol"
 )
 
-func main() {
+func TestMain(t *testing.T) {
 
 	iss := set.NewSet()
 	fss := set.NewSet()
@@ -30,16 +28,10 @@ func main() {
 	trs.Add(tr4)
 
 	tm := turingMachine.NewTuringMachine(iss, fss, trs, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
-	for {
-		fmt.Println(tm.Print())
-		tm.Step()
-		buf := bufio.NewReader(os.Stdin)
-		fmt.Print("> ")
-		buf.ReadBytes('\n')
-		if tm.Computed() {
-			fmt.Println("Final state reached")
-			break
-		}
+	tm.Run()
+
+	if tm == nil {
+		t.Errorf("Main was incorrect, got: nil")
 	}
 
 }

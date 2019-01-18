@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"fmt"
 	"strings"
 
 	state "github.com/made2591/go-tm/turing/state"
@@ -18,6 +19,7 @@ type Transaction interface {
 	GetNewState() state.State
 	GetSymbolWritten() symbol.Symbol
 	GetMoveTape() string
+	Print() string
 }
 
 // transaction struct
@@ -85,33 +87,40 @@ func (t *transaction) GetCurrentState() state.State {
 
 }
 
-// GetSymbolScanned() Return the Symbol scanned
+// GetSymbolScanned() Return the symbol scanned to activate the transaction
 func (t *transaction) GetSymbolScanned() symbol.Symbol {
 
 	return t.symbolScanned
 
 }
 
-// GetNewState() Return the new State in which the
-// Transaction bring the TuringMachine in which is applied
+// GetNewState() Return the state in which the Turing machine evolve
 func (t *transaction) GetNewState() state.State {
 
 	return t.newState
 
 }
 
-// GetSymbolWritten() Return the new Symbol written by the
-// Transaction bring the TuringMachine in which is applied
+// GetSymbolWritten() Return the symbol written by the transaction
 func (t *transaction) GetSymbolWritten() symbol.Symbol {
 
 	return t.symbolWritten
 
 }
 
-// GetMoveTape() Return the moveTape action done by the
-// Transaction over the Symbol scanned
+// GetMoveTape() Return the action done over the tape by the transaction
 func (t *transaction) GetMoveTape() string {
 
 	return t.moveTape
 
+}
+
+// Print() Return a string representation of the transaction
+func (t *transaction) Print() string {
+	return fmt.Sprintf("(In state %d, read %d, write %d, go in %d and move the pointer %s)",
+		t.currentState.GetIdentifier(),
+		t.symbolScanned.GetValue(),
+		t.symbolWritten.GetValue(),
+		t.newState.GetIdentifier(),
+		t.moveTape)
 }
