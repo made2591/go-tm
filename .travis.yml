@@ -1,0 +1,12 @@
+language: go
+
+go:
+  - master
+
+stages:
+  - Test
+  - Build
+
+script:
+  - chmod u+x coverage.sh
+  - "./coverage.sh --coveralls"
