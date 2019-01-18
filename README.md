@@ -49,7 +49,60 @@ go get github.com/made2591/go-tm
 
 ## Usage
 
-To run a [BB-2 Game](https://en.wikipedia.org/wiki/Busy_beaver), from inside the ```root``` folder of the project run
+To create a new ```Symbol```, use the ```NewSymbol()``` factory method
+
+```sh
+// will create a new Symbol with value 0
+sym := NewSymbol(uint8(0))
+```
+
+To create a new ```State```, use the ```NewState()``` or ```NewStateInitial()``` or ```NewStateFinal()``` factory methods
+
+```sh
+// will create a three new State, one with Identifier 21, one INITIAL and one FINAL
+sts := NewState(uint8(21))
+ins := NewStateInitial()
+fis := NewStateFinal()
+```
+
+To create a new ```Transaction```, use the ```NewTransaction()``` factory method
+
+```sh
+// will move from INITIAL State, reading 0, writing 0, to state 21
+tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "N")
+```
+
+To init a new ```TuringMachine``` to play the [BB-2 Game](https://en.wikipedia.org/wiki/Busy_beaver)
+
+```sh
+// create states set
+iss := set.NewSet()
+fss := set.NewSet()
+trs := set.NewSet()
+
+// create transaction
+tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), "N")
+tr1 := transaction.NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "R")
+tr2 := transaction.NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "L")
+tr3 := transaction.NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "L")
+tr4 := transaction.NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
+
+// add transaction to set
+trs.Add(tr0)
+trs.Add(tr1)
+trs.Add(tr2)
+trs.Add(tr3)
+trs.Add(tr4)
+
+// init the Turing Machine
+tm := turingMachine.NewTuringMachine(iss, fss, trs, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
+
+// run the Turing Machine
+tm.Run()
+
+```
+
+or, from inside the ```root``` folder of the project
 
 ```sh
 go run main.go
