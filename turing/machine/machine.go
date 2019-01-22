@@ -129,7 +129,7 @@ func (tm *turingMachine) MoveHeadPointer(s symbol.Symbol, m string) int {
 // Print() Return a string representation of the Turing machine
 func (tm *turingMachine) Print() string {
 
-	s := fmt.Sprintf("Actual state of TM:    %d", tm.actualState.GetIdentifier())
+	s := fmt.Sprintf("Actual state of TM:    %s", tm.actualState.GetIdentifier().(string))
 	s = strings.Join([]string{s, fmt.Sprintf("Actual symbol on head: %d", tm.tape[tm.headPointer].GetValue())}, "\n")
 	s = strings.Join([]string{s, fmt.Sprintf("Actual tape pointer:   %d", tm.headPointer)}, "\n")
 	s = strings.Join([]string{s, ""}, "\n")

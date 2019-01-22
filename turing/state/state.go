@@ -1,10 +1,12 @@
 package state
 
+import "strings"
+
 const (
 	// Initial State Identifier
-	INITIAL = ^uint8(0) - 1
+	INITIAL = "INITIAL"
 	// Final State Identifier
-	FINAL = ^uint8(0)
+	FINAL = "FINAL"
 )
 
 // State interface
@@ -57,14 +59,14 @@ func (s *state) GetIdentifier() interface{} {
 // IsInitial() Check if s State has INITIAL identifier
 func (s *state) IsInitial() bool {
 
-	return s.i == INITIAL
+	return strings.EqualFold(s.i.(string), INITIAL)
 
 }
 
 // IsFinal() Check if s State is has FINAL identifier
 func (s *state) IsFinal() bool {
 
-	return s.i == FINAL
+	return strings.EqualFold(s.i.(string), FINAL)
 
 }
 
@@ -72,6 +74,6 @@ func (s *state) IsFinal() bool {
 // if their identifier are equal
 func (s *state) Equal(c State) bool {
 
-	return s.GetIdentifier() == c.GetIdentifier()
+	return strings.EqualFold(s.GetIdentifier().(string), c.GetIdentifier().(string))
 
 }

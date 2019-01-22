@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"strings"
 	"testing"
 
 	set "github.com/made2591/go-tm/set"
@@ -11,13 +12,13 @@ import (
 func TestNewTuringMachine(t *testing.T) {
 
 	iss := set.NewSet()
-	s := state.NewState(uint8(4))
+	s := state.NewState("A")
 	iss.Add(s)
 
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr := NewTransaction(state.NewState(uint8(3)), symbol.NewSymbol(uint8(4)), state.NewState(uint8(5)), symbol.NewSymbol(uint8(6)), "P")
+	tr := NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(4)), state.NewState("C"), symbol.NewSymbol(uint8(6)), "P")
 	trs.Add(tr)
 
 	as := s
@@ -35,11 +36,11 @@ func TestStep(t *testing.T) {
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr0 := NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), "N")
-	tr1 := NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "R")
-	tr2 := NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "L")
-	tr3 := NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "L")
-	tr4 := NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
+	tr0 := NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(0)), "N")
+	tr1 := NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(0)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "R")
+	tr2 := NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(1)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "L")
+	tr3 := NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(1)), "L")
+	tr4 := NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
 	trs.Add(tr0)
 	trs.Add(tr1)
 	trs.Add(tr2)
@@ -47,8 +48,8 @@ func TestStep(t *testing.T) {
 	trs.Add(tr4)
 
 	tm := NewTuringMachine(iss, fss, trs, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
-	if s := tm.Step(); s.GetIdentifier() != uint8(21) {
-		t.Errorf("Step() was incorrect, got: %d wanted: %d", s.GetIdentifier(), uint8(21))
+	if s := tm.Step(); !strings.EqualFold(s.GetIdentifier().(string), "A") {
+		t.Errorf("Step() was incorrect, got: %s wanted: %s", s.GetIdentifier().(string), "A")
 	}
 
 }
@@ -68,11 +69,11 @@ func TestRun(t *testing.T) {
 	fss := set.NewSet()
 	trs := set.NewSet()
 
-	tr0 := NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), "N")
-	tr1 := NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "R")
-	tr2 := NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "L")
-	tr3 := NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "L")
-	tr4 := NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
+	tr0 := NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(0)), "N")
+	tr1 := NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(0)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "R")
+	tr2 := NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(1)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "L")
+	tr3 := NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(1)), "L")
+	tr4 := NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
 	trs.Add(tr0)
 	trs.Add(tr1)
 	trs.Add(tr2)
@@ -81,8 +82,8 @@ func TestRun(t *testing.T) {
 
 	tm := NewTuringMachine(iss, fss, trs, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
 	tm.Run()
-	if s := tm.GetActualState(); s.GetIdentifier() != state.FINAL {
-		t.Errorf("Run() was incorrect, got: %d wanted: %d", s.GetIdentifier(), state.FINAL)
+	if s := tm.GetActualState(); !strings.EqualFold(s.GetIdentifier().(string), state.FINAL) {
+		t.Errorf("Run() was incorrect, got: %s wanted: %s", s.GetIdentifier().(string), state.FINAL)
 	}
 
 }
@@ -99,8 +100,8 @@ func TestGetActualSymbol(t *testing.T) {
 func TestGetActualState(t *testing.T) {
 
 	tm := NewTuringMachine(nil, nil, nil, state.NewState(state.INITIAL), symbol.NewSymbol(uint8(0)))
-	if c := tm.GetActualState(); c.GetIdentifier() != state.INITIAL {
-		t.Errorf("GetActualState() was incorrect, got: %d wanted: %d", c.GetIdentifier(), state.INITIAL)
+	if c := tm.GetActualState(); !strings.EqualFold(c.GetIdentifier().(string), state.INITIAL) {
+		t.Errorf("GetActualState() was incorrect, got: %s wanted: %s", c.GetIdentifier().(string), state.INITIAL)
 	}
 
 }

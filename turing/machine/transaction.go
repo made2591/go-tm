@@ -117,7 +117,7 @@ func (t *transaction) GetMoveTape() string {
 
 // Print() Return a string representation of the transaction
 func (t *transaction) Print() string {
-	return fmt.Sprintf("(In state %d, read %d, write %d, go in %d and move the pointer %s)",
+	return fmt.Sprintf("(In state %s, read %d, write %d, go in %s and move the pointer %s)",
 		t.currentState.GetIdentifier(),
 		t.symbolScanned.GetValue(),
 		t.symbolWritten.GetValue(),

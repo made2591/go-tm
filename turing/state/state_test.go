@@ -1,19 +1,16 @@
 package state
 
 import (
+	"strings"
 	"testing"
 )
 
 func TestNewState(t *testing.T) {
 
-	s := NewState(uint8(1))
+	s := NewState("A")
 
 	if s == nil {
 		t.Errorf("NewState was() incorrect, got: nil")
-	}
-
-	if i := s.GetIdentifier(); i != uint8(1) {
-		t.Errorf("NewState was() incorrect, got: %d, want: %+v.", i, uint8(1))
 	}
 
 }
@@ -26,7 +23,7 @@ func TestNewInitialState(t *testing.T) {
 		t.Errorf("NewInitialState was incorrect, got: nil")
 	}
 
-	if i := s.GetIdentifier(); i != INITIAL {
+	if i := s.GetIdentifier(); !strings.EqualFold(i.(string), INITIAL) {
 		t.Errorf("NewInitialState was incorrect, got: %d, want: %+v.", i, INITIAL)
 	}
 
@@ -40,7 +37,7 @@ func TestNewFinalState(t *testing.T) {
 		t.Errorf("NewFinalState() was incorrect, got: nil")
 	}
 
-	if i := s.GetIdentifier(); i != FINAL {
+	if i := s.GetIdentifier(); !strings.EqualFold(i.(string), FINAL) {
 		t.Errorf("NewFinalState() was incorrect, got: %d, want: %+v.", i, FINAL)
 	}
 
@@ -48,14 +45,14 @@ func TestNewFinalState(t *testing.T) {
 
 func TestGetIdentifier(t *testing.T) {
 
-	s := NewState(uint8(1))
+	s := NewState("A")
 
 	if s == nil {
 		t.Errorf("GetIdentifier was incorrect, got: nil")
 	}
 
-	if i := s.GetIdentifier(); i != uint8(1) {
-		t.Errorf("GetIdentifier was incorrect, got: %d, want: %d.", i, uint8(1))
+	if i := s.GetIdentifier(); !strings.EqualFold(i.(string), "A") {
+		t.Errorf("NewState was() incorrect, got: %s, want: %s", i, "A")
 	}
 
 }
@@ -90,14 +87,14 @@ func TestIsFinal(t *testing.T) {
 
 func TestEqual(t *testing.T) {
 
-	s1 := NewState(uint8(1))
-	s2 := NewState(uint8(1))
+	s1 := NewState("A")
+	s2 := NewState("A")
 	if !s1.Equal(s2) {
 		t.Errorf("Equal() was incorrect, got: %t, want: %t.", false, true)
 	}
 
-	s1 = NewState(uint8(1))
-	s2 = NewState(uint8(3))
+	s1 = NewState("A")
+	s2 = NewState("B")
 	if s1.Equal(s2) {
 		t.Errorf("Equal() was incorrect, got: %t, want: %t.", true, false)
 	}

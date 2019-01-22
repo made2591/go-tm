@@ -6,6 +6,8 @@
 [![License](https://img.shields.io/github/license/made2591/go-tm.svg)](https://opensource.org/licenses/MIT)
 [![GoDoc](https://godoc.org/github.com/made2591/go-tm?status.svg)](https://godoc.org/github.com/made2591/go-tm)
 
+![header](header.gif)
+
 **go-tm** is a library to implement both deterministic and non deterministic Turing machines easily. A related [blog-post](https://made2591.github.io/posts/golang-turing-machine) is here.
 
 The Turing machine is a mathematical model of computation that defines an abstract machine which manipulates symbols on a strip of tape according to a list of rules. Formally, it is defined as an infinite tape of 0 with a pointer (identified by square bracket) to one specific zero,
@@ -34,10 +36,12 @@ The pointer can only be moved by one position at time, left, right, or stay wher
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Support](#support)
-- [Contributing](#contributing)
+- [go-tm - Make a Turing Machine easily](#go-tm---make-a-turing-machine-easily)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Support](#support)
+  - [Contributing](#contributing)
 
 ## Installation
 
