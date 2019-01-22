@@ -63,8 +63,8 @@ sym := NewSymbol(uint8(0))
 To create a new ```State```, use the ```NewState()``` or ```NewStateInitial()``` or ```NewStateFinal()``` factory methods
 
 ```sh
-// will create a three new State, one with Identifier 21, one INITIAL and one FINAL
-sts := NewState(uint8(21))
+// will create a three new State, one with Identifier "A", one INITIAL and one FINAL
+sts := NewState("A")
 ins := NewStateInitial()
 fis := NewStateFinal()
 ```
@@ -72,8 +72,8 @@ fis := NewStateFinal()
 To create a new ```Transaction```, use the ```NewTransaction()``` factory method
 
 ```sh
-// will move from INITIAL State, reading 0, writing 0, to state 21
-tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "N")
+// will move from INITIAL State, reading 0, writing 0, to state "B"
+tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "N")
 ```
 
 To init a new ```TuringMachine``` to play the [BB-2 Game](https://en.wikipedia.org/wiki/Busy_beaver)
@@ -85,12 +85,11 @@ fss := set.NewSet()
 trs := set.NewSet()
 
 // create transaction
-tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), "N")
-tr1 := transaction.NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "R")
-tr2 := transaction.NewTransaction(state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), "L")
-tr3 := transaction.NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(0)), state.NewState(uint8(21)), symbol.NewSymbol(uint8(1)), "L")
-tr4 := transaction.NewTransaction(state.NewState(uint8(22)), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
-
+tr0 := transaction.NewTransaction(state.NewInitialState(), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(0)), "N")
+tr1 := transaction.NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(0)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "R")
+tr2 := transaction.NewTransaction(state.NewState("A"), symbol.NewSymbol(uint8(1)), state.NewState("B"), symbol.NewSymbol(uint8(1)), "L")
+tr3 := transaction.NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(0)), state.NewState("A"), symbol.NewSymbol(uint8(1)), "L")
+tr4 := transaction.NewTransaction(state.NewState("B"), symbol.NewSymbol(uint8(1)), state.NewFinalState(), symbol.NewSymbol(uint8(1)), "R")
 // add transaction to set
 trs.Add(tr0)
 trs.Add(tr1)
